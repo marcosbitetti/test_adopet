@@ -1,0 +1,21 @@
+.login {
+    
+}
+
+.login .ant-row-flex {
+    min-height: 500px;
+}
+
+.loginField {
+    margin-bottom: 1.5rem;
+}
+
+.loginButton {
+    width: 100%;
+    cursor: pointer;
+}
+
+.loginButton:hover {
+    transform: translate(2px, -2px);
+    box-shadow: -4px 4px 8px 0px #999;
+}
