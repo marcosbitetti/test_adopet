@@ -17,7 +17,7 @@ import {
 
 import './Home.css';
 import ListItem from './../components/ListItem';
-import { useSearch } from './../services/services';
+import { useSearch } from './../hooks/hooks';
 import {
     ESexKeyNames,
     ESizeKeyNames,
@@ -135,6 +135,7 @@ export default function() {
                     searchResult.result.length===0 ? <div className="no-one"><Icon type="frown" /></div> : null
                 }
             </Row>
+            <span data-testid="home"></span>
         </div>
     )
 }

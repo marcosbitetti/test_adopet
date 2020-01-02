@@ -15,7 +15,7 @@ import './App.css';
 import Home from './views/Home';
 import Login from './views/Login';
 
-import { useLoggedStatus } from './services/services';
+import { useLoggedStatus } from './hooks/hooks';
 
 const { Header, Footer, Content} = Layout;
 
@@ -41,7 +41,9 @@ const App: React.FC = () => {
             />
           </Switch>
         </Content>
-        <Footer></Footer>
+        <Footer>
+          <a href="https://github.com/marcosbitetti" rel="author" target="_blank">marcosbitetti@gmail.com</a>
+        </Footer>
       </Layout>
     </Router>
   );
