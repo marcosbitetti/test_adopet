@@ -2,18 +2,11 @@ import React from 'react';
 import {
     Row,
     Col,
-    Typography,
-    Button,
-    Card,
-    Input,
     Pagination,
     Select,
     Progress,
     Divider,
-    Icon,
-    Spin,
-    message
-} from 'antd'
+    Icon} from 'antd'
 
 import './Home.css';
 import ListItem from './../components/ListItem';
@@ -26,12 +19,11 @@ import {
     ESizeKey,
     EAgeKey
 } from './../enums/enums';
-import { SearchResult } from './../dto/SearchDTO';
 
 export default function() {
 
     const [
-        search,
+,
         setSearch,
         searchResult,
         options,

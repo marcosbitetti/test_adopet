@@ -2,7 +2,6 @@ import React from 'react';
 import {
     Row,
     Col,
-    Typography,
     Button,
     Card,
     Input,
@@ -14,8 +13,6 @@ import {
 import './Login.css';
 import { login } from './../services/services';
 import Config from './../config';
-
-const { Title, Paragraph, Text } = Typography;
 
 export default function() {
 

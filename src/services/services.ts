@@ -1,20 +1,5 @@
-import React from 'react';
-import { message } from 'antd';
 
 import Config from './../config';
-import {
-    ESexKeyNames,
-    ESizeKeyNames,
-    EAgeKeyNames,
-    ESexKey,
-    ESizeKey,
-    EAgeKey
-} from './../enums/enums';
-import {
-    Search,
-    SearchResult,
-    Options
-} from './../dto/SearchDTO';
 
 const {sessionStorage} = window;
 
@@ -110,13 +95,13 @@ function login(email:string, password:string) {
         if (sessionStorage.getItem(ACCESS_KEY)==null) {
             //message.error( 'Login error', Config.messageDuration);
             return _getCredentials().then(
-                (res) => {
+                () => {
                     login(email,password).then(
                         (res) => { resolve(res) },
-                        (err) => { reject() }
+                        () => { reject() }
                     );
                 },
-                (err) => { reject() }
+                () => { reject() }
             )
         }
         _call('auth/session-register', 'POST', {

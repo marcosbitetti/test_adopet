@@ -3,14 +3,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect
 } from 'react-router-dom';
 // import { Header, Footer, Sider, Content, Layout, Spin } from 'antd';
 import { Layout, Icon } from 'antd';
 
 // local imports
-import logo from './logo.svg';
 import './App.css';
 import Home from './views/Home';
 import Login from './views/Login';
@@ -42,7 +40,7 @@ const App: React.FC = () => {
           </Switch>
         </Content>
         <Footer>
-          <a href="https://github.com/marcosbitetti" rel="author" target="_blank">marcosbitetti@gmail.com</a>
+          <a href="https://github.com/marcosbitetti" rel="author noopener noreferrer" target="_blank">marcosbitetti@gmail.com</a>
         </Footer>
       </Layout>
     </Router>

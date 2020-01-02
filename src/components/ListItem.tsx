@@ -1,18 +1,11 @@
 import React from 'react';
 import {
     Col,
-    Typography,
-    Button,
     Card,
-    Input,
-    Progress,
     Icon,
-    Spin,
     Popconfirm,
-    message
 } from 'antd'
 
-import Config from './../config';
 import {
     ESexKeyNames,
     ESizeKeyNames,
@@ -46,7 +39,7 @@ export default function(props: any) {
                         okText="Yes!"
                         cancelText="no"
                         >
-                        <a href="#">Actions</a>
+                        <a href="/home">Actions</a>
                     </Popconfirm>
                 }
                 className="item-card"

@@ -1,15 +1,9 @@
 import React from 'react';
 import { message } from 'antd';
 
-import { USER, USER_LOGGED, _call } from './../services/services';
+import { USER_LOGGED, _call } from './../services/services';
 import {
-    ESexKeyNames,
-    ESizeKeyNames,
-    EAgeKeyNames,
-    ESexKey,
-    ESizeKey,
-    EAgeKey
-} from './../enums/enums';
+    ESexKey} from './../enums/enums';
 import {
     Search,
     SearchResult,
@@ -23,7 +17,7 @@ import Config from './../config';
  * 
  */
 function useLoggedStatus() : boolean {
-    const [ isLogged, setIsLogged ] = React.useState(
+    const [ isLogged ] = React.useState(
         !!sessionStorage.getItem(USER_LOGGED)
     );
     
@@ -67,7 +61,7 @@ function useSearch(): any {
                     console.log(res);
                     setResult( new SearchResult(res) );
                 },
-                (err) => reject()
+                () => reject()
             );
         });
     }
