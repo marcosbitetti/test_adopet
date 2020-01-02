@@ -1,1 +1,31 @@
 
+.list-item {
+    padding: 8px;
+}
+
+.list-item .item-card {
+    box-shadow: -2px 2px 4px 0px #aaa;
+}
+
+.list-item .item-card:hover {
+    box-shadow: -4px 4px 16px 0px #aaa;
+    transform: translate(2px, -2px);
+}
+
+.list-item .item-card ul {
+    text-align: left;
+    list-style: none;
+    text-indent: 0px;
+    margin: 0;
+}
+
+.list-item .item-card ul span {
+    position: absolute;
+    left: 124px;
+}
+
+.list-item .item-card .icon {
+    position: absolute;
+    left: 12px;
+    font-size: 150%;
+}

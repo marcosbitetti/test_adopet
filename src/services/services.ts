@@ -2,7 +2,15 @@ import React from 'react';
 import { message } from 'antd';
 
 import Config from './../config';
-import { Search, Options } from './../dto/SearchDTO';
+import {
+    ESexKeyNames,
+    ESizeKeyNames,
+    EAgeKeyNames,
+    ESexKey,
+    ESizeKey,
+    EAgeKey
+} from './../enums/enums';
+import { Search, SearchResult, Options } from './../dto/SearchDTO';
 
 const {sessionStorage} = window;
 
@@ -21,8 +29,10 @@ function _headers(xhr:XMLHttpRequest) {
     xhr.setRequestHeader('Accept', 'application/json, text/plain, */*');
     xhr.setRequestHeader('Content-Type','application/json;charset=utf-8');
     if (accessKey!==null) {
+        if (accessKey===undefined || accessKey==='undefined') return null;
         xhr.setRequestHeader('Authorization', 'Bearer ' + accessKey);
     }
+    
     return xhr;
 }
 
@@ -34,13 +44,17 @@ function _call( endpoint:string, method:string='GET', data:any=null, progress: a
             xhr.timeout = Config.requestTimeout;
             xhr.responseType = 'json';
             xhr.open( method, Config.api + endpoint, true );
-            _headers(xhr);
+            if (null===_headers(xhr)) {
+                reject()
+                return logout();
+            }
             xhr.addEventListener('progress', (evt) => {
+                !!progress&&progress( Math.ceil((evt.loaded/evt.total * 100.0))  );
             });
             xhr.onload = (evt:any) => {
                 if ( parseInt(evt.currentTarget.response.status) === 200 ) {
                     const { data } = evt.currentTarget.response;
-                    sessionStorage.setItem(ACCESS_KEY,data.access_key);
+                    if (data.access_key) sessionStorage.setItem(ACCESS_KEY,data.access_key);
                     resolve(data);
                 } else reject();
             }
@@ -123,24 +137,42 @@ function useLoggedStatus() : boolean {
  * 
  */
 function useSearch(): any {
-    const [ search, setSearch ] = React.useState({});
+    const [ search, setSearch ] = React.useState( new Search({sex_key:ESexKey[ESexKey.FEMALE]}) );
+    const [ options, setOptions ] = React.useState( new Options() );
+    const [ searchResult, setResult ] = React.useState( new SearchResult({}) );
+    const [ progress, setProgress ] = React.useState( 0 );
 
-    /*new Promise((resolve, reject) => {
-        const s = new Search();
-        _call('pet/search', 'POST', s, (progress:any) => console.log(progress) ).then(
-            (res) => {
-                console.log(res);
-            },
-            (err) => reject()
-        );
-    });*/
-    console.log(search);
+    function _doSearch() {
+        setProgress(0);
+        new Promise((resolve, reject) => {
+            _call('pet/search', 'POST', { search: search, options: options }, (progress:any) => setProgress(progress) ).then(
+                (res) => {
+                    console.log(res);
+                    setResult( new SearchResult(res) );
+                },
+                (err) => reject()
+            );
+        });
+    }
 
+    React.useMemo(
+        () => _doSearch(),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [ search, options ]
+    );
+    
     return [
         search,
         (event: any) => {
-            setSearch(event);
-        }
+            setOptions( new Options( 1, options.limit, options.sort ) );
+            setSearch( new Search(event) );
+        },
+        searchResult,
+        options,
+        (event: any) => {
+            setOptions( new Options(event.page, event.limit, event.sort) );
+        },
+        progress,
     ];
 }
 
@@ -179,8 +211,16 @@ function login(email:string, password:string) {
     } );
 }
 
+function logout() {
+    sessionStorage.removeItem(ACCESS_KEY);
+    sessionStorage.removeItem(USER);
+    sessionStorage.removeItem(USER_LOGGED);
+    return window.location.href='/login';
+}
+
 export {
     login,
+    logout,
 
     useLoggedStatus,
     useSearch,

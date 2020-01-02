@@ -1,4 +1,3 @@
-
 interface IOptions {
     page: number;
     limit: number;
@@ -6,18 +5,23 @@ interface IOptions {
 }
 
 interface ISearch {
-    sex_key: string;
+    sex_key?: string;
+    size_key?: string;
+    age_key?: string;
     specie: any;
     breed_primary: any;
     branch: any;
     _fields: Array<string>;
 }
 
-
-enum ESexKey { MALE, FEMALE };
-enum ESizeKey { S, M, L, XL };
-enum EAgeKey { BABY, YOUNG, ADULT, SENIOR };
-
+interface ISearchResult {
+    count: number;
+    limit: number;
+    offset: number;
+    page: number;
+    pages: number;
+    result: Array<any>;
+}
 
 class Options implements IOptions {
     public page: number;
@@ -33,15 +37,19 @@ class Options implements IOptions {
 
 class Search implements ISearch {
     
-    public sex_key: string;
+    public sex_key?: string;
+    public size_key?: string;
+    public age_key?: string;
     public specie: any;
     public breed_primary: any;
     public branch: any;
     public _fields: Array<string>;
-    public options: Options;
 
-    constructor( ) {
-        this.sex_key = ESexKey[ESexKey.FEMALE];
+    /**
+     * @note: I switch age to Adult to propose adoptions of Adults
+     */
+    constructor( obj: any = null) {
+        if (null!==obj) Object.assign( this,obj );
         this._fields = [
             'id',
             'uuid',
@@ -74,16 +82,26 @@ class Search implements ISearch {
                 _fields: [ 'id', 'name'],
             }
         };
-        this.options = new Options();
     }
 
 }
 
+
+class SearchResult {
+    public count: number = 0;
+    public limit: number = 5;
+    public offset: number = 0;
+    public page: number = 0;
+    public pages: number = 0;
+    public result: Array<any> = [];
+
+    constructor(obj:any) {
+        Object.assign(this, obj);
+    }
+}
+
 export {
     Search,
+    SearchResult,
     Options,
-
-    ESexKey,
-    ESizeKey,
-    EAgeKey,
 };
